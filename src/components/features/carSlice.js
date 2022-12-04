@@ -16,24 +16,36 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       );
       if (itemIndex >= 0) {
-          state.cartItems[itemIndex].cartQuantity += 1;
-          toast.info("increased product quantity", {
-            position: "top-center",
-          });
+        state.cartItems[itemIndex].cartQuantity += 1;
+        toast.info("increased product quantity", {
+          position: "top-center",
+        });
       } else {
         const tempProduct = { ...action.payload, cartQuantity: 1 };
-          state.cartItems.push(tempProduct);
-          toast.success(`${action.payload.name} added to cart`, {
-            position: "top-center",
-          });
+        state.cartItems.push(tempProduct);
+        toast.success(`${action.payload.name} added to cart`, {
+          position: "top-center",
+        });
       }
-          
-          localStorage.setItem("cartitems", JSON.stringify(state.cartItems))
+
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+    },
+
+    removeFromCart(state, action) {
+      const nextCartItems = state.cartItems.filter(
+        (cartItem) => cartItem.id !== action.payload.id
+      );
+      state.cartItems = nextCartItems;
+      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+
+      toast.error(`${action.payload.name} removed from cart`, {
+        position: "top-center",
+      });
     },
   },
 });
 
-export const { addToCart } = cartSlice.actions;
+export const { addToCart, removeFromCart } = cartSlice.actions;
 
 export default cartSlice.reducer;
   
