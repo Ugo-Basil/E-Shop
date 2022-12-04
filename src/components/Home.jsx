@@ -1,14 +1,22 @@
-import React from 'react'
-import { useGetAllProductsQuery } from './features/productApi'
+
+import { useGetAllProductsQuery } from "./features/productApi";
 // import { useSelector } from 'react-redux'
-
+import { useDispatch } from "react-redux";
+import { addToCart } from "./features/carSlice";
+import { useNavigate } from "react-router-dom";
 const Home = () => {
+  const dispatch = useDispatch();
+ const navigate = useNavigate();
 
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    navigate("/cart");
+  };
   //Aysnc Thunk
-//  const {items, status} =  useSelector(state => state.products)
+  //  const {items, status} =  useSelector(state => state.products)
 
   //Async RTK Query
-  const {data, error, isLoading} =  useGetAllProductsQuery()
+  const { data, error, isLoading } = useGetAllProductsQuery();
   return (
     <div className="home-container">
       {isLoading ? (
@@ -27,7 +35,9 @@ const Home = () => {
                   <p>{product.desc}</p>
                   <span className="price">${product.price}</span>
                 </div>
-                <button>Add To Cart</button>
+                <button onClick={() => handleAddToCart(product)}>
+                  Add To Cart
+                </button>
               </div>
             ))}
           </div>
@@ -35,6 +45,6 @@ const Home = () => {
       )}
     </div>
   );
-}
+};
 
-export default Home
+export default Home;

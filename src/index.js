@@ -11,9 +11,14 @@ import productsReducer, {productsFetch} from './components/features/productsSlic
 
 import { productsApi } from './components/features/productApi';
 
+import cartReducer from './components/features/carSlice'
+
+
+
 const store = configureStore({
   reducer: {
     products: productsReducer,
+    cart: cartReducer,
     [productsApi.reducerPath]: productsApi.reducer
   },
 
@@ -29,6 +34,7 @@ store.dispatch(productsFetch());
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
+    
     <Provider store={store}>
       <App />
     </Provider>
