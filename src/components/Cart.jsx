@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { removeFromCart } from './features/carSlice';
+import { addToCart, decreaseCart, removeFromCart } from './features/carSlice';
 const Cart = () => {
   
   const cart = useSelector((state) => state.cart);
@@ -10,6 +10,15 @@ const Cart = () => {
   const handleRemoveFromCart = (cartItem) =>{
     dispatch(removeFromCart(cartItem))
   }
+
+  const handleDecreaseCart = (cartItem) => {
+    dispatch(decreaseCart(cartItem));
+  }
+
+  const handleAddToCart = (cartItem) => {
+    dispatch(addToCart(cartItem))
+  }
+
   return (
     <div className="cart-container">
       <h2>Shopping Cart</h2>
@@ -51,14 +60,18 @@ const Cart = () => {
                   <div>
                     <h3>{cartItem.name}</h3>
                     <p>{cartItem.desc}</p>
-                    <button onClick={() => handleRemoveFromCart(cartItem)}>Remove</button>
+                    <button onClick={() => handleRemoveFromCart(cartItem)}>
+                      Remove
+                    </button>
                   </div>
                 </div>
                 <div className="cart-product-price">${cartItem.price}</div>
                 <div className="cart-product-quantity">
-                  <button>-</button>
+                  <button onClick={() => handleDecreaseCart(cartItem)}>
+                    -
+                  </button>
                   <div className="count">{cartItem.cartQuantity}</div>
-                  <button>+</button>
+                  <button onClick={() => handleAddToCart(cartItem)}>+</button>
                 </div>
                 <div className="cart-product-total-price">
                   ${cartItem.price * cartItem.cartQuantity}
@@ -71,7 +84,7 @@ const Cart = () => {
             <div className="cart-checkout">
               <div className="subtotal">
                 <span>Subtotal</span>
-                  <span className="amount">${cart.cartTotalAmount}</span>
+                <span className="amount">${cart.cartTotalAmount}</span>
               </div>
               <p>Taxes and shipping calculated at checkout</p>
               <button>Check out</button>
