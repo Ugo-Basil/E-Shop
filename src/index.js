@@ -11,7 +11,7 @@ import productsReducer, {productsFetch} from './components/features/productsSlic
 
 import { productsApi } from './components/features/productApi';
 
-import cartReducer from './components/features/carSlice'
+import cartReducer, { getTotals } from './components/features/carSlice'
 
 
 
@@ -28,6 +28,7 @@ const store = configureStore({
 });
 
 store.dispatch(productsFetch());
+store.dispatch(getTotals());
 
 
 
